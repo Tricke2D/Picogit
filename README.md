@@ -115,66 +115,66 @@ Implementasi version control engine dari nol dalam Python dengan **production-gr
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
 │                         PicoGit Engine                              │
-│                                                                      │
-│  ┌─────────────────────────────────────────────────────────────┐   │
-│  │                     CLI Layer                                │   │
-│  │  • init, add, status, commit, branch, checkout             │   │
-│  │  • merge, diff, log, gc                                    │   │
-│  └──────────────────────────┬──────────────────────────────────┘   │
-│                              │                                      │
-│  ┌──────────────────────────▼──────────────────────────────────┐   │
-│  │                 Core Modules                                 │   │
-│  │  ┌─────────────────────────────────────────────────────┐   │   │
-│  │  │  Object Store (content-addressable)                  │   │   │
-│  │  │  • write_object(hash) → path                        │   │   │
-│  │  │  • read_object(hash) → type + content              │   │   │
-│  │  └─────────────────────────────────────────────────────┘   │   │
-│  │  ┌─────────────────────────────────────────────────────┐   │   │
-│  │  │  Objects (Blob, Tree, Commit)                       │   │   │
-│  │  │  • Blob: pure file content                         │   │   │
-│  │  │  • Tree: directory structure (Merkle tree)         │   │   │
-│  │  │  • Commit: snapshot + parent chain                 │   │   │
-│  │  └─────────────────────────────────────────────────────┘   │   │
-│  │  ┌─────────────────────────────────────────────────────┐   │   │
-│  │  │  Index (Staging Area)                               │   │   │
-│  │  │  • path → blob_hash mapping                        │   │   │
-│  │  │  • save/load from .minigit/index                   │   │   │
-│  │  └─────────────────────────────────────────────────────┘   │   │
-│  │  ┌─────────────────────────────────────────────────────┐   │   │
-│  │  │  Repository (Branch management)                     │   │   │
-│  │  │  • refs/heads/ (branch pointers)                   │   │   │
-│  │  │  • HEAD (active branch)                            │   │   │
-│  │  └─────────────────────────────────────────────────────┘   │   │
-│  └──────────────────────────┬──────────────────────────────────┘   │
-│                              │                                      │
-│  ┌──────────────────────────▼──────────────────────────────────┐   │
-│  │                 Algorithm Layer                             │   │
-│  │  ┌─────────────────────────────────────────────────────┐   │   │
-│  │  │  Diff (LCS-based)                                   │   │   │
-│  │  │  • compute_line_diff(a, b) → ops                   │   │   │
-│  │  │  • Equal, Delete, Insert                           │   │   │
-│  │  └─────────────────────────────────────────────────────┘   │   │
-│  │  ┌─────────────────────────────────────────────────────┐   │   │
-│  │  │  Merge (3-way)                                      │   │   │
-│  │  │  • find_common_ancestor (BFS)                      │   │   │
-│  │  │  • merge_file(base, head, incoming)                │   │   │
-│  │  │  • Auto-merge vs conflict                          │   │   │
-│  │  └─────────────────────────────────────────────────────┘   │   │
-│  │  ┌─────────────────────────────────────────────────────┐   │   │
-│  │  │  GC (Reachability analysis)                         │   │   │
-│  │  │  • walk_commit → walk_tree → mark all reachable   │   │   │
-│  │  │  • Delete unreachable objects                      │   │   │
-│  │  └─────────────────────────────────────────────────────┘   │   │
-│  └──────────────────────────┬──────────────────────────────────┘   │
-│                              │                                      │
-│  ┌──────────────────────────▼──────────────────────────────────┐   │
-│  │                    Disk Storage                             │   │
-│  │  • .minigit/objects/ (compressed content)                  │   │
-│  │  • .minigit/index (staging area)                           │   │
-│  │  • .minigit/refs/heads/ (branch pointers)                 │   │
-│  │  • .minigit/HEAD (active branch)                           │   │
-│  └─────────────────────────────────────────────────────────────┘   │
-│                                                                      │
+│                                                                     │
+│  ┌─────────────────────────────────────────────────────────────┐    │
+│  │                     CLI Layer                               │    │
+│  │  • init, add, status, commit, branch, checkout              │    │
+│  │  • merge, diff, log, gc                                     │    │
+│  └──────────────────────────┬──────────────────────────────────┘    │
+│                             │                                       │
+│  ┌──────────────────────────▼──────────────────────────────────┐    │
+│  │                 Core Modules                                │    │
+│  │  ┌─────────────────────────────────────────────────────┐    │    │
+│  │  │  Object Store (content-addressable)                 │    │    │
+│  │  │  • write_object(hash) → path                        │    │    │
+│  │  │  • read_object(hash) → type + content               │    │    │
+│  │  └─────────────────────────────────────────────────────┘    │    │
+│  │  ┌─────────────────────────────────────────────────────┐    │    │
+│  │  │  Objects (Blob, Tree, Commit)                       │    │    │
+│  │  │  • Blob: pure file content                          │    │    │
+│  │  │  • Tree: directory structure (Merkle tree)          │    │    │
+│  │  │  • Commit: snapshot + parent chain                  │    │    │
+│  │  └─────────────────────────────────────────────────────┘    │    │
+│  │  ┌─────────────────────────────────────────────────────┐    │    │
+│  │  │  Index (Staging Area)                               │    │    │
+│  │  │  • path → blob_hash mapping                         │    │    │
+│  │  │  • save/load from .minigit/index                    │    │    │
+│  │  └─────────────────────────────────────────────────────┘    │    │
+│  │  ┌─────────────────────────────────────────────────────┐    │    │
+│  │  │  Repository (Branch management)                     │    │    │
+│  │  │  • refs/heads/ (branch pointers)                    │    │    │
+│  │  │  • HEAD (active branch)                             │    │    │
+│  │  └─────────────────────────────────────────────────────┘    │    │
+│  └──────────────────────────┬──────────────────────────────────┘    │
+│                             │                                       │
+│  ┌──────────────────────────▼──────────────────────────────────┐    │
+│  │                 Algorithm Layer                             │    │
+│  │  ┌─────────────────────────────────────────────────────┐    │    │ 
+│  │  │  Diff (LCS-based)                                   │    │    │
+│  │  │  • compute_line_diff(a, b) → ops                    │    │    │
+│  │  │  • Equal, Delete, Insert                            │    │    │
+│  │  └─────────────────────────────────────────────────────┘    │    │
+│  │  ┌─────────────────────────────────────────────────────┐    │    │
+│  │  │  Merge (3-way)                                      │    │    │
+│  │  │  • find_common_ancestor (BFS)                       │    │    │
+│  │  │  • merge_file(base, head, incoming)                 │    │    │
+│  │  │  • Auto-merge vs conflict                           │    │    │
+│  │  └─────────────────────────────────────────────────────┘    │    │
+│  │  ┌─────────────────────────────────────────────────────┐    │    │
+│  │  │  GC (Reachability analysis)                         │    │    │
+│  │  │  • walk_commit → walk_tree → mark all reachable     │    │    │
+│  │  │  • Delete unreachable objects                       │    │    │
+│  │  └─────────────────────────────────────────────────────┘    │    │
+│  └──────────────────────────┬──────────────────────────────────┘    │
+│                             │                                       │
+│  ┌──────────────────────────▼──────────────────────────────────┐    │
+│  │                    Disk Storage                             │    │
+│  │  • .minigit/objects/ (compressed content)                   │    │
+│  │  • .minigit/index (staging area)                            │    │
+│  │  • .minigit/refs/heads/ (branch pointers)                   │    │
+│  │  • .minigit/HEAD (active branch)                            │    │
+│  └─────────────────────────────────────────────────────────────┘    │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -187,10 +187,10 @@ Implementasi version control engine dari nol dalam Python dengan **production-gr
 │ 1. Add File to Staging Area                                  │
 ├──────────────────────────────────────────────────────────────┤
 │ minigit add file.txt                                         │
-│   ↓ Read file → compute SHA-1 (blob + header)               │
+│   ↓ Read file → compute SHA-1 (blob + header)                │
 │   ↓ Write compressed blob to .minigit/objects/               │
-│   ↓ Add entry to .minigit/index: "file.txt <hash>"          │
-│   ↓ ✅ File staged                                            │
+│   ↓ Add entry to .minigit/index: "file.txt <hash>"           │
+│   ↓ ✅ File staged                                           │
 └──────────────────────────────────────────────────────────────┘
 
 ┌──────────────────────────────────────────────────────────────┐
@@ -198,12 +198,12 @@ Implementasi version control engine dari nol dalam Python dengan **production-gr
 ├──────────────────────────────────────────────────────────────┤
 │ minigit commit -m "message"                                  │
 │   ↓ Read .minigit/index                                      │
-│   ↓ Build Tree from index (recursive directory structure)   │
-│   ↓ Compute Tree hash → write Tree object                   │
-│   ↓ Create Commit: tree, parent, author, timestamp, message │
-│   ↓ Write Commit object → get commit hash                   │
-│   ↓ Update refs/heads/<branch> = <commit_hash>              │
-│   ↓ ✅ Commit created                                         │
+│   ↓ Build Tree from index (recursive directory structure)    │
+│   ↓ Compute Tree hash → write Tree object                    │
+│   ↓ Create Commit: tree, parent, author, timestamp, message  │
+│   ↓ Write Commit object → get commit hash                    │
+│   ↓ Update refs/heads/<branch> = <commit_hash>               │
+│   ↓ ✅ Commit created                                        │
 └──────────────────────────────────────────────────────────────┘
 ```
 
@@ -214,18 +214,18 @@ Implementasi version control engine dari nol dalam Python dengan **production-gr
 │ 3. 3-Way Merge                                               │
 ├──────────────────────────────────────────────────────────────┤
 │ minigit merge feature                                        │
-│   ↓ Find common ancestor: BFS dari kedua commit             │
-│   ↓ For each file in {base, HEAD, incoming}:                │
-│     ├─ Compute diff: base→HEAD                             │
-│     ├─ Compute diff: base→incoming                         │
-│     ├─ Extract hunks (groups of changes)                   │
-│     ├─ Merge logic per hunk:                               │
-│     │  ├─ Only HEAD: take HEAD                            │
-│     │  ├─ Only incoming: take incoming                    │
-│     │  ├─ Both, same: take either                         │
-│     │  └─ Both, different: CONFLICT!                      │
-│   ↓ If conflict: write <<<<<<< / ======= / >>>>>>> markers  │
-│   ↓ If no conflict: create merge commit dengan 2 parents    │
+│   ↓ Find common ancestor: BFS dari kedua commit              │
+│   ↓ For each file in {base, HEAD, incoming}:                 │
+│     ├─ Compute diff: base→HEAD                               │
+│     ├─ Compute diff: base→incoming                           │
+│     ├─ Extract hunks (groups of changes)                     │
+│     ├─ Merge logic per hunk:                                 │
+│     │  ├─ Only HEAD: take HEAD                               │
+│     │  ├─ Only incoming: take incoming                       │
+│     │  ├─ Both, same: take either                            │
+│     │  └─ Both, different: CONFLICT!                         │
+│   ↓ If conflict: write <<<<<<< / ======= / >>>>>>> markers   │
+│   ↓ If no conflict: create merge commit dengan 2 parents     │
 │   ↓ ✅ Merge complete                                        │
 └──────────────────────────────────────────────────────────────┘
 ```
